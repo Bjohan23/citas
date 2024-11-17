@@ -1,20 +1,42 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; 
-import { Observable } from 'rxjs'; 
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { LoginService } from '../../services/login.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [],
+  imports: [FormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  private baseUrl = 'http://localhost:8000/v1/usuarios/email/';
 
-  constructor(private http: HttpClient) { }
+  usuario: string = '';
+  password: string = '';
+  rememberMe: boolean = false;
+  errorMessage: string = ''; 
+  constructor(private login: LoginService, private router: Router) { }
 
-  login(email: string): Observable<any> {
-    const url = `${this.baseUrl}${email}`;  // Asegúrate de que la URL sea correcta
-    return this.http.get<any>(url);  // El tipo de la respuesta es 'any' en este caso, puedes ajustarlo según tu backend
+  onSubmit() {
+    this.errorMessage = '';  // Limpiar cualquier mensaje de error anterior
+
+    // Llamar al servicio de login
+    this.login.login(this.usuario).subscribe(
+      (response) => {
+        if(response.body.password == this.password){
+          this.router.navigate(['/dashboard']);
+        }else{
+          this.errorMessage = 'Contraseña incorrecta o usuario no encontrado';
+        }
+        console.log('Login exitoso', response);
+      },
+      (error) => {
+        // Si ocurre un error, mostramos el mensaje
+        this.errorMessage = 'Contraseña incorrecta o usuario no encontrado';
+        console.log('Error en login', error);
+      }
+    );
+
   }
 }

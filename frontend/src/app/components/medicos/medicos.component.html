@@ -1,0 +1,89 @@
+<div class="container-fluid mt-5">
+    <h1 class="text-center mb-4">Gestión de Médicos</h1>
+
+    <!-- Botón para registrar un nuevo médico -->
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-primary" (click)="onRegister()" data-bs-toggle="modal" data-bs-target="#editModal">
+            <i class="bi bi-plus-circle me-2"></i>Registrar Nuevo Médico
+        </button>
+        <input type="text" class="form-control w-25" placeholder="Buscar médico" [(ngModel)]="searchTerm" />
+    </div>
+
+    <!-- Tabla de médicos -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Especialidad</th>
+                    <th>Teléfono</th>
+                    <th class="text-center">Operaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let medico of filteredMedicos(); let i = index">
+                    <td>{{ medico.idMedico }}</td>
+                    <td>{{ medico.nombre }}</td>
+                    <td>{{ medico.especialidad }}</td>
+                    <td>{{ medico.telefono }}</td>
+                    <td class="text-center">
+                        <button class="btn btn-warning btn-sm me-2" (click)="onEditMedico(medico)" data-bs-toggle="modal"
+                            data-bs-target="#editModal">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>
+                        <button class="btn btn-danger btn-sm" (click)="onDeleteMedico(medico.idMedico)">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Información de filas -->
+    <p class="text-muted">Total de filas: {{ medicos.length }}</p>
+</div>
+
+<!-- Modal de registro y edición de médico -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">
+                    {{ isEditing ? 'Editar Médico' : 'Registrar Nuevo Médico' }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario de registro y edición -->
+                <form (ngSubmit)="onSaveChanges()">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" [(ngModel)]="selectedMedico.nombre"
+                            name="nombre" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="especialidad" class="form-label">Especialidad</label>
+                        <select class="form-select" id="especialidad" [(ngModel)]="selectedMedico.especialidad"
+                            name="especialidad" required>
+                            <option value="" disabled>Selecciona una especialidad</option>
+                            <option *ngFor="let especialidad of especialidades" [value]="especialidad">
+                                {{ especialidad }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" id="telefono" [(ngModel)]="selectedMedico.telefono"
+                            name="telefono" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        {{ isEditing ? 'Actualizar Médico' : 'Registrar Médico' }}
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

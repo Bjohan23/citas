@@ -1,0 +1,80 @@
+<div class="container-fluid mt-5">
+    <h1 class="text-center mb-4">Gestión de Usuarios</h1>
+
+    <!-- Botón para registrar un nuevo usuario -->
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-primary" (click)="onRegister()" data-bs-toggle="modal" data-bs-target="#editModal">
+            <i class="bi bi-plus-circle me-2"></i>Registrar Nuevo Usuario
+        </button>
+        <input type="text" class="form-control w-25" placeholder="Buscar usuario" [(ngModel)]="searchTerm" />
+    </div>
+
+    <!-- Tabla de usuarios -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre de Usuario</th>
+                    <th>Contraseña</th>
+                    <th class="text-center">Operaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of filteredUsers(); let i = index">
+                    <td>{{ user.idUsuario }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ showPassword[i] ? user.password : '*****' }}</td>
+                    <td class="text-center">
+                        <button class="btn btn-warning btn-sm me-2" (click)="onEditUser(user)" data-bs-toggle="modal"
+                            data-bs-target="#editModal">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>
+                        <button class="btn btn-info btn-sm me-2" (click)="togglePasswordVisibility(i)">
+                            <i class="bi bi-eye"></i> Ver
+                        </button>
+                        <button class="btn btn-danger btn-sm" (click)="onDeleteUser(user.idUsuario)">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Información de filas -->
+    <p class="text-muted">Total de filas: {{ usuarios.length }}</p>
+</div>
+
+<!-- Modal de registro y edición de usuario -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">
+                    {{ isEditing ? 'Editar Usuario' : 'Registrar Nuevo Usuario' }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario de registro y edición -->
+                <form (ngSubmit)="onSaveChanges()">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nombre de Usuario</label>
+                        <input type="text" class="form-control" id="username" [(ngModel)]="selectedUser.username"
+                            name="username" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" [(ngModel)]="selectedUser.password"
+                            name="password" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        {{ isEditing ? 'Actualizar Usuario' : 'Registrar Usuario' }}
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

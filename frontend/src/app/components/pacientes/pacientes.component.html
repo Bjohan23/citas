@@ -1,0 +1,84 @@
+<div class="container-fluid mt-5">
+    <h1 class="text-center mb-4">Gestión de Pacientes</h1>
+
+    <!-- Botón para registrar un nuevo paciente -->
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-primary" (click)="onRegister()" data-bs-toggle="modal" data-bs-target="#editModal">
+            <i class="bi bi-plus-circle me-2"></i>Registrar Nuevo Paciente
+        </button>
+        <input type="text" class="form-control w-25" placeholder="Buscar paciente" [(ngModel)]="searchTerm" />
+    </div>
+
+    <!-- Tabla de pacientes -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th class="text-center">Operaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let paciente of filteredPacientes(); let i = index">
+                    <td>{{ paciente.idPaciente }}</td>
+                    <td>{{ paciente.nombre }}</td>
+                    <td>{{ paciente.telefono }}</td>
+                    <td>{{ paciente.email }}</td>
+                    <td class="text-center">
+                        <button class="btn btn-warning btn-sm me-2" (click)="onEditPaciente(paciente)" data-bs-toggle="modal"
+                            data-bs-target="#editModal">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>
+                        <button class="btn btn-danger btn-sm" (click)="onDeletePaciente(paciente.idPaciente)">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Información de filas -->
+    <p class="text-muted">Total de filas: {{ pacientes.length }}</p>
+</div>
+
+<!-- Modal de registro y edición de pacientes -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">
+                    {{ isEditing ? 'Editar Paciente' : 'Registrar Nuevo Paciente' }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario de registro y edición -->
+                <form (ngSubmit)="onSaveChanges()">
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" [(ngModel)]="selectedPaciente.nombre"
+                            name="nombre" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="text" class="form-control" id="telefono" [(ngModel)]="selectedPaciente.telefono"
+                            name="telefono" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" [(ngModel)]="selectedPaciente.email"
+                            name="email" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        {{ isEditing ? 'Actualizar Paciente' : 'Registrar Paciente' }}
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
