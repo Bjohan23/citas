@@ -34,11 +34,16 @@ public class CitaServiceImpl implements CitaService {
     @Transactional(readOnly = true)
     public List<Citas> findAll() {
         try {
-            return repository.findAll();
+            List<Citas> citas = repository.findAll();
+
+            // Imprimir el resultado en la consola
+            citas.forEach(cita -> System.out.println(cita));
+            return citas;            // Esto debería devolver todas las citas
         } catch (Exception e) {
-            throw new GeneralException("Error al obtener la lista de citas");
+            throw new GeneralException("Error al obtener la lista de citas", e);
         }
     }
+
 
     @Override
     @Transactional(readOnly = true)

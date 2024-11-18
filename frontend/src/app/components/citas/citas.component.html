@@ -1,1 +1,97 @@
-<p>citas works!</p>
+<div class="container-fluid mt-5">
+    <h1 class="text-center mb-4">Gestión de Citas</h1>
+
+    <!-- Botón para registrar una nueva cita -->
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-primary" (click)="onRegister()" data-bs-toggle="modal" data-bs-target="#editModal">
+            <i class="bi bi-plus-circle me-2"></i>Registrar Nueva Cita
+        </button>
+        <input type="text" class="form-control w-25" placeholder="Buscar cita" [(ngModel)]="searchTerm" />
+    </div>
+
+    <!-- Tabla de citas -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th>ID</th>
+                    <th>Paciente</th>
+                    <th>Médico</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Descripcion</th>
+                    <th class="text-center">Operaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cita of filteredCitas(); let i = index">
+                    <td>{{ cita.idCita }}</td>
+                    <td>{{ cita.paciente.nombre }}</td>
+                    <td>{{ cita.medico.nombre }}</td>
+                    <td>{{ cita.fechaCita | date: 'yyyy-MM-dd' }}</td>
+                    <td>{{ cita.horaCita }}</td>
+                    <td>{{ cita.descripcion }}</td>
+                    <td class="text-center">
+                        <button class="btn btn-warning btn-sm me-2" (click)="onEditCita(cita)" data-bs-toggle="modal"
+                            data-bs-target="#editModal">
+                            <i class="bi bi-pencil"></i> Editar
+                        </button>
+                        <button class="btn btn-danger btn-sm" (click)="onDeleteCita(cita.idCita)">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Información de filas -->
+    <p class="text-muted">Total de citas: {{ citas.length }}</p>
+</div>
+
+<!-- Modal de registro y edición de citas -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">
+                    {{ isEditing ? 'Editar Cita' : 'Registrar Nueva Cita' }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario de registro y edición -->
+                <form (ngSubmit)="onSaveChanges()">
+                    <div class="mb-3">
+                        <label for="paciente" class="form-label">Paciente</label>
+                        <select id="paciente" class="form-select" [(ngModel)]="selectedCita.paciente" name="paciente" required>
+                            <option *ngFor="let paciente of pacientes" [ngValue]="paciente">{{ paciente.nombre }}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="medico" class="form-label">Médico</label>
+                        <select id="medico" class="form-select" [(ngModel)]="selectedCita.medico" name="medico" required>
+                            <option *ngFor="let medico of medicos" [ngValue]="medico">{{ medico.nombre }}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="fecha" [(ngModel)]="selectedCita.fechaCita" name="fecha" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="hora" class="form-label">Hora</label>
+                        <input type="time" class="form-control" id="hora" [(ngModel)]="selectedCita.horaCita" name="hora" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descripcion" [(ngModel)]="selectedCita.descripcion" name="descripcion" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        {{ isEditing ? 'Actualizar Cita' : 'Registrar Cita' }}
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

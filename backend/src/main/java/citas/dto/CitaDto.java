@@ -1,10 +1,15 @@
 package citas.dto;
 
+import citas.entity.Medicos;
+import citas.entity.Pacientes;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -13,9 +18,9 @@ import lombok.Setter;
 @Builder
 public class CitaDto {
     private int idCita;
-    private int idPaciente;
-    private int idMedico;
-    private String fechaCita;
-    private String horaCita;
+    private Pacientes Paciente;
+    private Medicos Medico;
+    private LocalDate fechaCita; // Cambiado a LocalDate
+    private LocalTime horaCita; // Cambiado a LocalTime
     private String descripcion;
 }

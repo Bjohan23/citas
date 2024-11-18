@@ -1,0 +1,177 @@
+.container-fluid {
+    margin-top: 40px;
+    padding: 0 20px;
+}
+
+h1 {
+    font-size: 2rem;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Botones generales */
+.btn {
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* Botones de acciones en la tabla */
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: #fff;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Tabla */
+.table {
+    width: 100%;
+    text-align: center;
+    font-size: 1rem;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    text-align: center;
+    padding: 10px;
+}
+
+.table th {
+    background-color: #007bff;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Modal */
+.modal .modal-dialog {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 800px; /* Tamaño máximo del modal */
+}
+
+.modal .modal-content {
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background-color: #007bff;
+    color: white;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 15px 20px;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.modal-body {
+    padding: 20px 30px;
+    background-color: #ffffff;
+}
+
+/* Inputs del formulario */
+.form-label {
+    font-weight: 600;
+    color: #555;
+}
+
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Botones dentro del modal */
+button[type="submit"],
+button[type="button"] {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 25px;
+    margin-top: 10px;
+}
+
+button[type="submit"] {
+    background-color: #28a745;
+    border: none;
+    color: white;
+}
+
+button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+button[type="button"] {
+    background-color: #6c757d;
+    border: none;
+    color: white;
+}
+
+button[type="button"]:hover {
+    background-color: #5a6268;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .modal .modal-dialog {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .modal-body {
+        padding: 15px;
+    }
+
+    .form-control, .form-select {
+        font-size: 0.9rem;
+    }
+
+    button[type="submit"],
+    button[type="button"] {
+        padding: 8px 15px;
+    }
+}

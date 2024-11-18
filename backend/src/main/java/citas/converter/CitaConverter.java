@@ -4,9 +4,6 @@ import citas.dto.CitaDto;
 import citas.entity.Citas;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
-import java.sql.Time;
-
 @Component
 public class CitaConverter {
 
@@ -14,10 +11,10 @@ public class CitaConverter {
         if (entity == null) return null;
         return CitaDto.builder()
                 .idCita(entity.getIdCita())
-                .idPaciente(entity.getPaciente().getIdPaciente())
-                .idMedico(entity.getMedico().getIdMedico())
-                .fechaCita(entity.getFechaCita().toString())
-                .horaCita(entity.getHoraCita().toString())
+                .Paciente(entity.getPaciente())
+                .Medico(entity.getMedico())
+                .fechaCita(entity.getFechaCita()) // Directamente LocalDate
+                .horaCita(entity.getHoraCita()) // Directamente LocalTime
                 .descripcion(entity.getDescripcion())
                 .build();
     }
@@ -26,8 +23,10 @@ public class CitaConverter {
         if (dto == null) return null;
         return Citas.builder()
                 .idCita(dto.getIdCita())
-                .fechaCita(Date.valueOf(dto.getFechaCita()).toLocalDate())
-                .horaCita(Time.valueOf(dto.getHoraCita()).toLocalTime())
+                .paciente(dto.getPaciente())
+                .medico(dto.getMedico())
+                .fechaCita(dto.getFechaCita()) // Directamente LocalDate
+                .horaCita(dto.getHoraCita()) // Directamente LocalTime
                 .descripcion(dto.getDescripcion())
                 .build();
     }

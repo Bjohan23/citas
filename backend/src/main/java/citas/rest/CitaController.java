@@ -31,6 +31,7 @@ public class CitaController {
         return new WrapperResponse(true, "Citas encontradas", registros).createResponse(HttpStatus.OK);
     }
 
+
     @PostMapping
     public ResponseEntity<CitaDto> create(@RequestBody Citas cita) {
         CitaDto registro = converter.fromEntity(service.save(cita));
